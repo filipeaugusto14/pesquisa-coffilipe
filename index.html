@@ -143,10 +143,13 @@
         <div class="opcoes" data-campo="produtos" data-multi="1">
           <button type="button" class="opt">Café com leite / pingado</button>
           <button type="button" class="opt">Cappuccino</button>
+          <button type="button" class="opt">Chocolate quente</button>
+          <button type="button" class="opt">Queimadinha</button>
           <button type="button" class="opt">Chá</button>
           <button type="button" class="opt">Bolo ou salgado</button>
           <button type="button" class="opt">Copo maior</button>
         </div>
+        <input id="produtos-outro" type="text" placeholder="Outro? Escreve aqui..." style="margin-top:8px">
       </div>
 
       <div class="q">
@@ -236,6 +239,8 @@
       resp.sentimento = document.getElementById('sentimento').value;
       resp.recado = document.getElementById('recado').value;
       resp.contato = document.getElementById('contato').value;
+      var pOutro = document.getElementById('produtos-outro').value.trim();
+      if (pOutro) resp.produtos = resp.produtos.concat([pOutro]);
 
       var erro = document.getElementById('erro');
       if(!resp.frequencia || resp.nps===null || !resp.sabor || !resp.temperatura || !resp.notaAtendimento || !resp.impactoMensagem){

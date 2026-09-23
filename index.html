@@ -258,12 +258,22 @@
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(resp)
-      }).then(function(){ agradecer(); })
+      }).then(function(){ track('Respondeu a pesquisa', ''); agradecer(); })
         .catch(function(){
           btn.textContent='Enviar resposta'; btn.disabled=false;
           erro.textContent='Ops, não consegui enviar. Confira a internet e tente de novo.';
         });
     }
+
+    // Rastreio de abertura/ação da pesquisa (mesmo backend).
+    function track(alvo, destino){
+      try{
+        var payload = JSON.stringify({ form:'clique', alvo:alvo, destino:destino||'', pagina:'pesquisa', ref:document.referrer||'' });
+        if(navigator.sendBeacon){ navigator.sendBeacon(URL_BACKEND, new Blob([payload], { type:'text/plain' })); }
+        else { fetch(URL_BACKEND, { method:'POST', mode:'no-cors', keepalive:true, headers:{'Content-Type':'text/plain'}, body:payload }); }
+      }catch(e){}
+    }
+    track('(abertura)', location.href);
   </script>
 </body>
 </html>
